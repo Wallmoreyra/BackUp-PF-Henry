@@ -1,0 +1,81 @@
+<script>
+
+    function actualizar( id, info ) {
+            // Hacer una solicitud GET al servidor con el ID del producto
+            console.log(id, info)
+            fetch(`/users/actualizar/${id}`, {
+            method: 'GET'
+        })
+
+        
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al actualizar el usuario');
+                }
+                // Parsear la respuesta como JSON
+                return response.json();
+            })
+            .then(usuario => {
+                // Obtener el valor de activo de la respuesta
+                console.log(usuario)
+                if(info === 'admid') {
+
+                }else {
+
+                }
+
+                //const activo = data.activo;
+                //console.log('Estado de activo adquirido:', activo);
+
+                //cambio(id, activo)
+                //console.log(id)
+                
+            })
+            .catch(error => {
+                console.error('Error al actualizar el usuario:', error);
+                // Manejar el error aquí, por ejemplo, mostrar un mensaje de error al usuario
+            });
+        }
+
+    function () {
+        
+    }
+</script>
+
+
+
+<div class="row">
+    {{#each users}}
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4>{{name}}</h4>
+                    <h6>{{email}}</h6>
+                    <h4 class="card-title d-flex justify-content-between aling-items-center">
+                        Edit<a href="/users/edit/{{_id}}"><i class="fas fa-user-edit"></i></a>
+                    </h4>
+                    <h5 class="card-title d-flex justify-content-between aling-items-center">
+                        admin
+                        <button id="admin_{{_id}}" onclick="actualizar('{{_id}}' , 'admid')">
+                            <i id="icono2_{{_id}}" class="fas {{#if admid}}fa-user-tie{{else}}fa-user-slash{{/if}}"></i>
+                        </button>
+                    </h5>
+                    <h5 class="card-title d-flex justify-content-between aling-items-center">
+                        Mail Ver/No-Ver 
+                        <button id="actiDes_{{_id}}" onclick="actualizar('{{_id}}', 'emailVerifield')">
+                            <i id="icono_{{_id}}" class="fas {{#if emailVerified}}fa-user-check{{else}}fa-user-times{{/if}}"></i>
+                        </button>
+                        <input type="hidden" name="inp_{{_id}}" value="{{emailVerified}}" id="">
+                    </h5>
+                    <form id="deleteForm" action="/users/delete/{{_id}}?_method=DELETE" method="POST">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn btn-danger btn-block btn-sn">
+                            Borrar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div>
+
