@@ -1,0 +1,328 @@
+<script>
+
+    let opciones = []; // Array para almacenar las opciones seleccionadas
+
+    let opcion = {
+        color: '',
+        hexa: '',
+        talla: '',
+        stock: 0
+    };
+
+    function actualizarValores() {
+        // Obtener el select y los inputs
+        const select = document.getElementById('colorSelect');
+        const colorInput = document.getElementById('SelectColor');
+        const hexInput = document.getElementById('SelectColorExa');
+        
+        // Obtener el valor seleccionado del select
+        const selectedIndex = select.selectedIndex;
+        const selectedOption = select.options[selectedIndex];
+        const selectedColor = selectedOption.textContent; // Obtener el texto de la opción seleccionada
+        const selectedHex = selectedOption.value;
+        
+        // Asignar los valores a los inputs
+        colorInput.value = selectedColor;
+        hexInput.value = selectedHex
+    }
+
+    function actualizarValoresTallas(colorSeleccionado) {
+        // Obtener el select y el input de la talla correspondiente al color seleccionado
+        const select = document.getElementById(`select_${colorSeleccionado}`);
+        const tallaInput = document.getElementById(`talla_${colorSeleccionado}_talla`);
+        
+        // Obtener el valor seleccionado del select
+        const selectedIndex = select.selectedIndex;
+        const selectedOption = select.options[selectedIndex];
+        const selectedTalla = selectedOption.value;
+        
+        // Asignar el valor seleccionado al input de la talla
+        tallaInput.value = selectedTalla;
+    }
+    
+    
+    
+
+    function agregarOpcion(colorSeleccionado, colorExa, ListTallas) {
+            // Crear un nuevo objeto de opción
+            const tallasArray = ListTallas.split(',');
+            //console.log(colorSeleccionado)
+            //console.log(colorExa)
+            //console.log(ListTallas)
+
+            // Verificar si ya existe un div para este color
+            const divExistente = document.getElementById(`div_${colorSeleccionado}`);
+            if (divExistente) {
+                console.log(`El color ${colorSeleccionado} ya está agregado.`);
+                return; // Salir de la función si el color ya está agregado
+            }
+
+
+
+            // Obtener el div donde se agregarán las opciones para este color
+            const nuevoStockDiv = document.getElementById('NuevoStock');
+
+            // Crear un nuevo div para este color
+            const nuevoDiv = document.createElement('div');
+            nuevoDiv.id = 'div_' + colorSeleccionado;
+
+            // Agregar etiqueta y select para seleccionar talla
+            nuevoDiv.innerHTML = `
+                <label for="">Color: ${colorSeleccionado}</label>
+                <br>
+
+                <input type="hidden" name="talla_${colorSeleccionado}" id="talla_${colorSeleccionado}_" value="${colorExa}">
+                <label for="">Seleccione Talla:</label>
+                <select id="select_${colorSeleccionado}" onchange="actualizarValoresTallas('${colorSeleccionado}')">
+                    ${tallasArray.map(talla => `<option value="${talla}">${talla}</option>`).join('')}
+                </select>
+                <input type="hidden" name="talla" id="talla_${colorSeleccionado}_talla" value="${ListTallas[0]}">
+                <button type="button" onclick="agregarTalla('${colorSeleccionado}','','', '${colorExa}')">Agregar Talla</button>
+                <button type="button" onclick="borrarColor('${colorSeleccionado}')">Borrar Color</button>
+            `;
+
+            // Agregar el nuevo div al contenedor de opciones
+            nuevoStockDiv.appendChild(nuevoDiv);
+
+        
+    }
+
+
+
+    function borrarColor(color) {
+        // Obtener el div correspondiente al color seleccionado
+        const div = document.querySelector(`#div_${color}`);
+
+        // Eliminar el div completo
+        div.remove();
+
+        // Eliminar la opción del array
+        opciones = opciones.filter(opcion => opcion.color !== color);
+    }
+
+    
+    function agregarTalla(color, valorTalla, valorStock, valorHexa, colorExa) {
+    const select = document.getElementById(`talla_${color}_talla`);
+    const talla = valorTalla ? valorTalla : select.value;
+    const stock = valorStock ? Number(valorStock) : 0;
+    const hexa = valorHexa ? valorHexa : colorExa; // Inicializamos hexa en caso de que no se proporcione valorHexa
+
+    // Actualizar el stock de la opción correspondiente si ya existe en el array 'opciones'
+    const opcionExistenteIndex = opciones.findIndex(opcion => opcion.color === color && opcion.talla === talla);
+    if (opcionExistenteIndex !== -1) {
+        opciones[opcionExistenteIndex].stock = stock;
+    }
+
+    // Si no existe la opción en el array 'opciones', la agregamos
+    if (opcionExistenteIndex === -1) {
+        opciones.push({ color: color, talla: talla, stock: stock, hexa: hexa });
+    }
+
+    const divExistente = document.getElementById(`talla_${color}_${talla}`);
+    if (!divExistente) {
+        const nuevoDiv = document.createElement('div');
+        nuevoDiv.id = `talla_${color}_${talla}`;
+        nuevoDiv.innerHTML = `
+            <label for="">Talla: ${talla}</label>
+            <input type="hidden" name="${talla}" id="">
+
+            <input type="number" name="${color}_${talla}_stock" id="stock" class="" placeholder="Stock" value="${stock}">
+            <button type="button" onclick="borrarTalla('${color}', '${talla}')">Borrar Talla</button>
+        `;
+
+        const divColor = document.getElementById(`div_${color}`);
+        divColor.appendChild(nuevoDiv);
+    } else {
+        // Si la opción ya existe en el formulario, actualizamos su valor de stock
+        const stockInput = document.querySelector(`input[name="${color}_${talla}_stock"]`);
+        stockInput.value = stock;
+    }
+
+    const nuevoStockInput = document.querySelector(`input[name="${color}_${talla}_stock"]`);
+    // Adjuntar el evento de cambio al nuevo input de stock
+    nuevoStockInput.addEventListener('change', function(event) {
+        const stock = parseInt(this.value);
+        const opcionIndex = opciones.findIndex(opcion => opcion.color === color && opcion.talla === talla);
+        if (opcionIndex !== -1) {
+            opciones[opcionIndex].stock = stock;
+        }
+    });
+}
+        
+    const datosString = {{{ datosString }}};
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+
+ 
+        const datos2 = datosString;
+        //console.log(datos2);
+        //console.log(JSON.parse(datos2));
+    
+        const ListaDeTallas = "{{ListaDeTallas}}";
+
+        // Crear un conjunto para almacenar combinaciones únicas de hexa y nombreColor
+        const combinacionesUnicas = new Set();
+
+        // Iterar sobre cada objeto en datosColores y agregar la combinación de hexa y nombreColor al conjunto
+        datos2.forEach(({ Hexa, nombreColor }) => {
+        combinacionesUnicas.add(JSON.stringify({ hexa: Hexa, nombreColor }));
+        });
+        //console.log(combinacionesUnicas);
+
+        datos2.forEach(({ Hexa, nombreColor }) => {
+        // Agregar la combinación de hexa y nombreColor al conjunto
+        combinacionesUnicas.add(JSON.stringify({ hexa: Hexa, nombreColor }));
+
+        // Llamar a la función agregarOpcion con los parámetros hexa, nombreColor y ListaDeTallas
+        agregarOpcion(nombreColor, Hexa, ListaDeTallas);
+        });
+
+
+        const nuevoArrayObjetos = [];
+
+        datos2.forEach(({ Hexa, nombreColor, talla, stock }) => {
+            nuevoArrayObjetos.push({ nombreColor, talla, stock, Hexa });
+            agregarTalla(nombreColor, talla, stock, Hexa)
+
+        });
+
+        //console.log(nuevoArrayObjetos);
+
+
+    // Iterar sobre los datos para agruparlos por nombreColor
+    {{!-- datos2.forEach(item => {
+        const { nombreColor, talla, stock} = item;
+        if (!opcionesUnicasPorColor[nombreColor]) {
+            opcionesUnicasPorColor[nombreColor] = { nombreColor, talla, stock};
+        }
+    }); --}}
+
+    // Llamar a la función agregarTalla para cada grupo de opciones únicas
+    {{!-- Object.values(opcionesUnicasPorColor).forEach(opcion => {
+        const { nombreColor, talla, stock } = opcion;
+        agregarTalla(nombreColor, talla, stock);
+    }); --}}
+    
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Tu código aquí
+
+    const form = document.querySelector('form');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevenir el envío del formulario por defecto
+
+        // Transformar el array 'opciones' al formato deseado
+        const opcionesFormateadas = opciones.map(opcion => ({
+            color: {
+                codHexadecimal: opcion.hexa,
+                nombreColor: opcion.color
+            },
+            talla: opcion.talla,
+            stock: opcion.stock
+        }));
+
+        // Asignar el valor al campo 'opcion' en el formulario
+        const opcionInput = document.createElement('input');
+        opcionInput.type = 'hidden';
+        opcionInput.name = 'opcion'; // Nombre del campo en el formulario
+        opcionInput.value = JSON.stringify(opcionesFormateadas); // Convertir a cadena JSON
+        form.appendChild(opcionInput);
+
+        // Confirmar el envío del formulario
+        form.submit();
+    });
+});
+
+
+
+function agregarManejadoresEventos() {
+    const stockInputs = document.querySelectorAll('input[type="number"]');
+    stockInputs.forEach(input => {
+        input.addEventListener('change', function(event) {
+            const color = this.name.split('_')[0]; // Obtener el nombre del color del nombre del input
+            const talla = this.name.split('_')[1]; // Obtener la talla del nombre del input
+            const stock = parseInt(this.value); // Obtener el valor del stock del input
+
+            // Actualizar el stock en el array 'opciones'
+            const opcionIndex = opciones.findIndex(opcion => opcion.color === color && opcion.talla === talla);
+            if (opcionIndex !== -1) {
+                opciones[opcionIndex].stock = stock;
+            }
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    agregarManejadoresEventos();
+});
+
+    
+    function borrarTalla(color, talla) {
+        const divToRemove = document.getElementById(`talla_${color}_${talla}`);
+        if (divToRemove) {
+            divToRemove.remove();
+            opciones = opciones.filter(opcion => !(opcion.color === color && opcion.talla === talla));
+        }
+    }
+
+function renderOpc () {
+    console.log(opciones)
+}
+
+</script>
+
+
+
+
+
+
+<div class="col-md-12 mx-auto">
+    <div class="card text-center">
+        <div class="card-header">
+            <h3>Stock producto: {{producto.nombre}} id: {{producto._id}}</h3>
+        </div>
+        
+        <div class="card-body">
+            <form action="/products/edit/stock/{{producto._id}}?_method=PUT" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <div class="container">
+                    
+                        <div class="col-sm">
+                            <div id="stockForm">
+                                <div>
+                                    <label for="nombreColor">Color:</label>
+                                    
+                                    <select id="colorSelect" onchange="actualizarValores()">
+                                        {{#each ListColores}}
+                                            <option value="{{codHexadecimal}}">{{nombreColor}}</option>
+                                        {{/each}}
+                                    </select>
+                                        <input type="hidden" name="SelectColor" id="SelectColor" value="{{ListColores.0.nombreColor}}">
+                                        <input type="hidden" name="SelectColorExa" id="SelectColorExa" value="{{ListColores.0.codHexadecimal}}">
+                                        <button type="button" onclick="agregarOpcion(document.getElementById('SelectColor').value, document.getElementById('SelectColorExa').value, document.getElementById('ListTallas').value)">Agregar Opción</button>
+                                        <input type="hidden" name="ListTallas" id="ListTallas" value="{{ListaDeTallas}}">
+                                </div>
+                                
+                                <div id="formulario">
+                                <!-- Aquí está tu formulario con la estructura básica -->
+                                </div>
+                                <div id="NuevoStock"></div>
+                                
+                                
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-block" type="submit">
+                            Guardar
+                        </button>
+                    {{!-- <button type="button" onclick="renderOpc()">render Opcion</button> --}}
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</div>
+

@@ -1,0 +1,112 @@
+<script>
+    
+    function activarDes(id) {
+        // Hacer una solicitud GET al servidor con el ID del producto
+        fetch(`/products/acDes/${id}`, {
+        method: 'GET'
+    })
+    
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al activar/desactivar el producto');
+            }
+            // Parsear la respuesta como JSON
+            return response.json();
+        })
+        .then(data => {
+            // Obtener el valor de activo de la respuesta
+            const activo = data.activo;
+            console.log('Estado de activo adquirido:', activo);
+
+            cambio(id, activo)
+            //console.log(id)
+            
+        })
+        .catch(error => {
+            console.error('Error al activar/desactivar el producto:', error);
+            // Manejar el error aquí, por ejemplo, mostrar un mensaje de error al usuario
+        });
+    }
+
+
+    async function cambio(id, activo){
+        console.log(id)
+        console.log(activo)
+        auxActi = (activo === false) ? true : false;
+        // Actualizar el valor del input de texto
+        const inputElement = document.querySelector(`input[name="inp_${id}"]`);
+        inputElement.value = auxActi;
+        const iconElement = document.querySelector(`i[id="icono_${id}"]`);
+        if (activo === false) {
+            iconElement.classList.remove('fas', 'fa-eye-slash');
+            iconElement.classList.add('fas', 'fa-eye');
+        }else {
+            iconElement.classList.remove('fas', 'fa-eye');
+            iconElement.classList.add('fas', 'fa-eye-slash');
+        }
+        
+
+        const url = `/products/acDes/${id}`;
+        const data2 = { id, activo };
+
+        try {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data2)
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al llamar al método PUT');
+        }
+
+        console.log('Método PUT llamado con éxito');
+        
+        } catch (error) {
+            console.error('Error al llamar al método PUT:', error);
+        }
+                    // Aquí puedes actualizar la interfaz de usuario según el valor de activo
+    }
+</script>
+
+
+
+
+<div class="row">
+    {{#each prod}}
+     <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4>{{nombre}}</h4>
+                    <h4 class="card-title d-flex justify-content-between aling-items-center">
+                        Editar<a href="/products/edit/{{_id}}"><i class="fas fa-edit"></i></a>
+                    </h4>
+                    <h4 class="card-title d-flex justify-content-between aling-items-center">
+                        Stock<a href="/products/edit/stock/{{_id}}"><i class="fas fa-box"></i></a>
+                    </h4>
+                    <h4 class="card-title d-flex justify-content-between aling-items-center">
+                        imgs<a href="/products/edit/img/{{_id}}"><i class="fas fa-images"></i></a>
+                    </h4>
+                    <h4 class="card-title d-flex justify-content-between aling-items-center">
+                        Activar / Desactivar 
+                        <button id="actiDes_{{_id}}" onclick="activarDes('{{_id}}')">
+                            <i id="icono_{{_id}}" class="fas {{#if activo}}fa-eye{{else}}fa-eye-slash{{/if}}"></i>
+                        </button>
+                        <input type="hidden" name="inp_{{_id}}" value="{{activo}}" id="">
+                    </h4>
+                    
+                    <p>{{descripcion}}</p>
+                    <form id="deleteForm" action="/products/delete/{{_id}}?_method=DELETE" method="POST">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn btn-danger btn-block btn-sn">
+                            Borrar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    {{/each}}
+</div>

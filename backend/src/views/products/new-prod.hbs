@@ -1,0 +1,286 @@
+<script>
+    
+    // JavaScript
+    const opciones = [];
+
+    // FUNCINO PARA AGREGAR LA TALLA CON INPUT Y BOTON DE BORRADO
+
+    function agregarOpcion() {
+        //opciones2.push({name:23,casa:"hola"})
+    var nomColor = document.getElementById('nombreColorHidden').value;
+    var colorExa = document.getElementById('exaColorHidden').value;
+    var talla = document.getElementById('tallaHidden').value;;
+    var stock = document.getElementById('stock').value;;
+    
+
+    var opcionExistente = opciones.find(opcion => opcion.color.nombreColor === nomColor);
+    
+    if (opcionExistente) {
+        var talleExistente = opcionExistente.talles.find(t => t.talla === talla);
+        if (!talleExistente) {
+            // Verificar si stock está definido
+            if (stock !== undefined && stock !== "") {
+                opcionExistente.talles.push({ talla: talla, stock: stock });
+            }
+        }
+    } else {
+        // Verificar si stock está definido
+        if (stock !== undefined && stock !== "") {
+            var nuevaOpcion = { color: { codHexadecimal: colorExa, nombreColor: nomColor }, talles: [{ talla: talla, stock: stock }] };
+            opciones.push(nuevaOpcion);
+        }
+    }
+
+
+    actualizarFormulario();
+    //console.log(opciones);
+    document.getElementById('opcionesData').value = JSON.stringify(opciones);
+}
+
+function actualizarFormulario() {
+    var opcionesContainer = document.getElementById('opcionesContainer');
+    opcionesContainer.innerHTML = '';
+
+    opciones.forEach(function (opcion, index) {
+        var div = document.createElement('div');
+        var tallesHTML = '';
+        opcion.talles.forEach(function(talle, tIndex) {
+            tallesHTML += `
+                <label>Talla: ${talle.talla}, Stock: ${talle.stock}</label>
+                <button type="button" onclick="borrarTalla(${index}, ${tIndex})">Talla X</button><br>`;
+        });
+        div.innerHTML = `
+            <div class="card-stock-titulo">
+                <label>${opcion.color.nombreColor}</label>
+                <div>${tallesHTML}</div>
+                <button type="button" onclick="borrarOpcion(${index})">Opción X</button>   
+            </div>
+            <div class="card-info" id="tallasContainer${index}">
+                
+            </div>
+            <hr>
+        `;
+        opcionesContainer.appendChild(div);
+    });
+}
+// Función para eliminar una opción
+function borrarOpcion(index) {
+    // Remover la opción del array 'opciones'
+    opciones.splice(index, 1);
+    // Volver a generar el formulario
+    actualizarFormulario();
+}
+function borrarTalla(index, tIndex) {
+    // Remover la talla del array de talles de la opción
+    opciones[index].talles.splice(tIndex, 1);
+    // Volver a generar el formulario
+    actualizarFormulario();
+}
+
+
+function actualizarCampoTexto() {
+    var nombreColorSelect = document.getElementById('nombreColorSelect');
+    var nombreColorHidden = document.getElementById('nombreColorHidden');
+    var exaColorHidden = document.getElementById('exaColorHidden');
+    var nombreTalleSelect = document.getElementById('nombreTalleSelect');
+
+
+    var selectedValue = nombreColorSelect.value;
+    var hexValue = nombreColorSelect.options[nombreColorSelect.selectedIndex].dataset.hex;
+    var tallhi = nombreTalleSelect.value;
+
+    nombreColorHidden.value = selectedValue;
+    exaColorHidden.value = hexValue;
+
+    tallaHidden.value = tallhi;
+}
+    
+    //console.log(opciones)
+
+    // FUNCION DE AGREGAR IMGS
+        // Event listener para el clic en el botón de subir archivos
+    window.onload = function() {
+    // Event listener para el cambio en el input de archivos
+    document.getElementById('agreImg').addEventListener('change', function() {
+        const files = document.getElementById('agreImg').files;
+        procesarArchivos(files);
+    });
+
+    function procesarArchivos(files) {
+        const previewsContainer = document.getElementById('previews');
+
+        // Iterar sobre cada archivo seleccionado
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            // Verificar si el archivo es una imagen
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    // Crear un contenedor para cada imagen y su botón de eliminar
+                    const container = document.createElement('div');
+                    container.classList.add('imgContainer');
+
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.classList.add('prodImg');
+                    container.appendChild(img);
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'X';
+                    deleteButton.classList.add('btnBorrImg');
+                    deleteButton.addEventListener('click', function() {
+                        // Eliminar la imagen y su contenedor al hacer clic en el botón de eliminar
+                        previewsContainer.removeChild(container);
+                    });
+                    container.appendChild(deleteButton);
+
+                    // Agregar el contenedor al contenedor de previsualización
+                    previewsContainer.appendChild(container);
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                // Si no es una imagen, mostrar un mensaje de error o simplemente omitir el archivo
+                console.error('El archivo ' + file.name + ' no es una imagen. Se ha omitido.');
+            }
+        }
+    }
+};
+    
+    
+    //console.log(ListColores)
+</script>
+
+<div class="col-md-12 mx-auto">
+    <div class="card text-center">
+        <div class="card-header">
+            <h3>Producto Nuevo</h3>
+        </div>
+        
+        <div class="card-body">
+            <form action="/products/nuev-prod" method="POST" enctype="multipart/form-data">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <label for="">*Nombre:</label>
+                            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre" autofocus value="{{nombre}}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">*Marca:</label>
+                            <select name="marca" class="form-select form-control" size="2" aria-label="Size 3 select example" >
+                                {{#each ListaMarcas}}
+                                    <option value="{{nombre}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">*Descripcion:</label>
+                            <textarea name="descripcion" id="descripcion" placeholder="Descripcion" class="form-control">{{descripcion}}</textarea>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <label for="">*Precio $ 0.00</label>
+                            <input name="precio" placeholder="Precio" type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)" value="precio">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="offActiva">Oferta Activa:</label>
+                            <input type="checkbox" id="offActiva" name="offActiva">
+                            <label for="activo">Producto Activo:</label>
+                            <input type="checkbox" id="activo" name="activo">
+                            <label for="productoNuevo">Producto Nuevo</label>
+                            <input type="checkbox" id="productoNuevo" name="productoNuevo">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descuento">*Descuento (%):</label>
+                            <input type="number" id="descuento" name="descuento" min="0" max="100" step="1">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="categoria">*Categoria:</label>
+                            <select name="categoria" id="categoria" class="form-control">
+                                <option value="adulto">Adulto</option>
+                                <option value="infante">Infante</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="genero">*Genero:</label>
+                            <select name="genero" id="genero" class="form-control">
+                                <option value="masculino">Masculino</option>
+                                <option value="femenino">Femenino</option>
+                                <option value="unisex">Unisex</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subcategoria">*Subcategoria:</label>
+                            <select name="subcategoria" class="form-select form-control" size="2" aria-label="Size 2 select example">
+                                {{#each ListaSubCategorias}}
+                                    <option value="{{nombre}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                            
+                        </div>
+
+
+                    
+                    </div>
+                        <div class="col-sm">
+                        <h3>Variantes:</h3>
+
+                        <div class="form-group">
+                            <label for="nombreColor">Color:</label>
+                            <select id="nombreColorSelect" class="form-select" aria-label="Default select example" onchange="actualizarCampoTexto()">
+                                {{#each ListColores}}
+                                <option value="{{nombreColor}}" data-hex="{{codHexadecimal}}">{{nombreColor}}</option>
+                                {{/each}}
+                            </select>
+                            <label for="nombreColor">Talla</label>
+                            <select id="nombreTalleSelect" class="form-select" aria-label="Default select example" onchange="actualizarCampoTexto()">
+                                {{#each ListaDeTallas}}
+                                    <option value="{{nombre}}" data-hex="">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                            <input type="number" name="stock" id="stock" class="" placeholder="stock">
+                            <button type="button" onclick="agregarOpcion()">Agregar Opción</button>
+                            <input type="hidden" id="nombreColorHidden" value="negro" name="nombreColor">
+                            <input type="text" id="exaColorHidden" value="#000000" name="exaColor">
+                            <input type="hidden" id="tallaHidden" value="S" name="talla">
+                            <input type="hidden" id="opcionesData" name="opcionesData">
+                        </div>
+
+                        <div id="opcionesContainer"></div>
+
+                    </div>
+                    <div class="col-sm">
+
+                        <div class="col-sm contImagenesProd">
+                            <div class="form-group">
+                                <input type="file" name="photos" id="agreImg" multiple="true" value="Algo">
+                            </div>
+                            <div id="previews" class="imgCont"></div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+
+                
+
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</div>

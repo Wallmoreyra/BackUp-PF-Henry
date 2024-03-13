@@ -1,0 +1,131 @@
+<script>
+
+    // FUNCION DE AGREGAR IMGS
+        // Event listener para el clic en el botón de subir archivos
+    window.onload = function() {
+    // Event listener para el cambio en el input de archivos
+    document.getElementById('agreImg').addEventListener('change', function() {
+        const files = document.getElementById('agreImg').files;
+        procesarArchivos(files);
+    });
+
+    function procesarArchivos(files) {
+        const previewsContainer = document.getElementById('previews');
+
+        // Iterar sobre cada archivo seleccionado
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            // Verificar si el archivo es una imagen
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    // Crear un contenedor para cada imagen y su botón de eliminar
+                    const container = document.createElement('div');
+                    container.classList.add('imgContainer');
+
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.classList.add('prodImg');
+                    container.appendChild(img);
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'X';
+                    deleteButton.classList.add('btnBorrImg');
+                    deleteButton.addEventListener('click', function() {
+                        // Eliminar la imagen y su contenedor al hacer clic en el botón de eliminar
+                        previewsContainer.removeChild(container);
+                    });
+                    container.appendChild(deleteButton);
+
+                    // Agregar el contenedor al contenedor de previsualización
+                    previewsContainer.appendChild(container);
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                // Si no es una imagen, mostrar un mensaje de error o simplemente omitir el archivo
+                console.error('El archivo ' + file.name + ' no es una imagen. Se ha omitido.');
+            }
+        }
+    }
+};
+
+function borrarImagen(button) {
+    const container = button.parentNode;
+    container.parentNode.removeChild(container);
+}
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+<div class="col-md-12 mx-auto">
+    <div class="card text-center">
+        <div class="card-header">
+            <h3>Imagenes del producto: {{producto.nombre}}</h3>
+            <h5>Id: {{producto._id}}</h5>
+        </div>
+        
+        <div class="card-body">
+            <form action="/products/edit/img/{{producto._id}}?_method=PUT" method="POST" enctype="multipart/form-data">
+            {{!-- <form action="/products/edit/img/{{producto._id}}?_method=PUT" method="POST"> --}}
+                <input type="hidden" name="_method" value="PUT">
+                <div class="container">
+                    
+                        <div class="col-sm">
+                            <div id="stockForm">
+                                <div>
+                                    <label for="nombreColor">imgs:</label>
+
+                                    <div class="col-sm">
+
+                                        <div class="col-sm contImagenesProd">
+                                            <div class="form-group">
+                                                <input type="file" name="photos" id="agreImg" multiple="true" value="Algo">
+                                            </div>
+                                            <div id="previews" class="imgCont"></div>
+                                        </div>
+                                    
+                                    </div>
+                                    
+                                    
+                                </div>
+                                
+                                <div id="OldImgs">
+                                    {{#each producto.imagen}}
+                                        <div class="imgContainer">
+                                            <div>
+                                                <input type="hidden" name="imagenAct" value="{{this}}"> 
+                                                <img src="{{this}}" alt="Imagen del producto" class="prodImg" id="{{this}}">
+                                            </div>
+                                            <button class="btnBorrImg" onclick="borrarImagen(this)">X</button>
+                                        </div>
+                                    {{/each}}
+                                </div>
+                                <hr>
+                                
+                                {{!-- <div id="previews" class="imgCont"></div> --}}
+                                
+                                
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-block" type="submit">
+                            Guardar
+                        </button>
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</div>
