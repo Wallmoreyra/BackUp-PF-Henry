@@ -31,7 +31,7 @@
 
                     const deleteButton = document.createElement('button');
                     deleteButton.textContent = 'X';
-                    deleteButton.classList.add('btnBorrImg');
+                    deleteButton.classList.add('btnBorrImg btn btn-danger');
                     deleteButton.addEventListener('click', function() {
                         // Eliminar la imagen y su contenedor al hacer clic en el botón de eliminar
                         previewsContainer.removeChild(container);
@@ -85,22 +85,31 @@ function borrarImagen(button) {
                         <div class="col-sm">
                             <div id="stockForm">
                                 <div>
-                                    <label for="nombreColor">imgs:</label>
+                                    <div class="detail-title">
+                                        <h3>Subir Imagenes</h3>
+                                        <a href="/products" class="detail-title-volver">Volver</a>
+                                    </div>
 
                                     <div class="col-sm">
 
                                         <div class="col-sm contImagenesProd">
-                                            <div class="form-group">
+                                            <div class="form-group form-agregar-img">
                                                 <input type="file" name="photos" id="agreImg" multiple="true" value="Algo">
                                             </div>
-                                            <div id="previews" class="imgCont"></div>
                                         </div>
                                     
                                     </div>
-                                    
-                                    
+                                        
                                 </div>
-                                
+                                <hr>
+                                <h4>Imagenes Nuevas</h4>
+                                <hr>
+                                <div class="OldImgs">
+                                    <div id="previews" class="OldImgs"></div>
+                                </div>
+                                <hr>
+                                <h4>Imagenes Actuales:</h4>
+                                <hr>
                                 <div id="OldImgs">
                                     {{#each producto.imagen}}
                                         <div class="imgContainer">

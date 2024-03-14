@@ -423,7 +423,7 @@ prodCtrl.borrarProd = async (req, res) => {
 
 // REND TODOS LOS PRODUCTOS
 prodCtrl.renderProducts = async (req, res) => {
-    const prod = await Prod.find().lean();
+    const prod = await Prod.find().sort({createdAt: 'desc'}).lean();
     res.render('products/all-prod', {prod})
 };
 

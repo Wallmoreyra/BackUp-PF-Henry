@@ -108,111 +108,128 @@
                 <div class="container">
                     
                         <div class="col-sm">
-                            
-                            <div class="form-group">
-                                <label >Nombre: {{producto.nombre}}</label>
-                                <input type="text" name="nombre" class="form-control" value="{{producto.nombre}}">
+                            <div class="detail-title">
+                                <h3>Nombre: {{producto.nombre}}</h3>
+                                <a href="/products" class="detail-title-volver">Volver</a>
                             </div>
 
-                            <div class="form-group">
-                                <input type="hidden" id="marca" name="marca" value="{{producto.marca}}">
-                                <label for="">Marca Actual: {{producto.marca}}</label>
-                                <label for="">Cambiar a: <span id="showMarca">{{producto.marca}}</span></label>
-                                <select name="selectMarca" id="selectMarca">
-                                    {{#each ListaMarcas}}
-                                        <option value="{{nombre}}" selected>{{nombre}}</option>
-                                    {{/each}}
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <textarea name="descripcion" placeholder="Descripcion" class="form-control">{{producto.descripcion}}</textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label >Precio Actual: {{producto.precio}}</label>
-                                <input type="number" name="precio" class="form-control" value="{{producto.precio}}">
-                            </div>
-
-                            <div class="form-group">
-                                <input type="hidden" id="offActiva" name="offActiva" value="{{producto.oferta.offActiva}}">
-                                <label for="selectOffAct">Oferta: <span id="showOfferAct">
-                                    {{#if producto.oferta.offActiva}}
-                                        Activada
-                                    {{else}}
-                                        Desactivada
-                                    {{/if}}
-                                </span></label>
-                                <select name="selectOffAct" id="selectOffAct">
-                                        <option value="Activada" {{#if producto.oferta.offActiva}} selected {{/if}}>Activada</option>
-                                        <option value="Desactivada" {{#unless producto.oferta.offActiva}} selected {{/unless}}>Desactivada</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label >Descuento Actual: {{producto.oferta.descuento}} %</label>
-                                <input type="number" name="descuento" class="form-control" value="{{producto.oferta.descuento}}">
-                            </div>
-
-                            <div class="form-group">
-                                <input type="hidden" id="activo" name="activo" value="{{producto.activo}}">
-                                <label for="selectActDes">Producto: <span id="showActivo">
-                                    {{#if producto.activo}}
-                                        Visible
-                                    {{else}}
-                                        No-Visible
-                                    {{/if}}
-                                </span></label>
-                                <select name="selectVisible" id="selectVisible">
-                                        <option value="Visible" {{#if producto.activo}} selected {{/if}}>Visible</option>
-                                        <option value="No-Visible" {{#unless producto.activo}} selected {{/unless}}>No-Visible</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <input type="hidden" id="productoNuevo" name="productoNuevo" value="{{producto.productoNuevo}}">
-                                <label for="selectNuevo">Producto: <span id="showNuevo">
-                                    {{#if producto.productoNuevo}}
-                                        Nuevo
-                                    {{else}}
-                                        Viejo
-                                    {{/if}}
-                                </span></label>
-                                <select name="selectNuevo" id="selectNuevo">
-                                        <option value="Nuevo" {{#if producto.productoNuevo}} selected {{/if}}>Nuevo</option>
-                                        <option value="Viejo" {{#unless producto.productoNuevo}} selected {{/unless}}>Viejo</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <input type="hidden" id="categoria" name="categoria" value="{{producto.categoria}}">
-                                <label for="">Categoria Actual: {{producto.categoria}}</label>
-                                <label for="">Cambiar a: <span id="showCate">{{producto.categoria}}</span></label>
-                                <select name="selectCate" id="selectCate">
-                                        <option value="adulto" selected>adulto</option>
-                                        <option value="infante" selected>infante</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <input type="hidden" id="genero" name="genero" value="{{producto.genero}}">
-                                <label for="">Genero Actual: {{producto.genero}}</label>
-                                <label for="">Cambiar a: <span id="showGenero">{{producto.genero}}</span></label>
-                                <select name="selectGenero" id="selectGenero">
-                                        <option value="maculino" selected>maculino</option>
-                                        <option value="femenino" selected>femenino</option>
-                                        <option value="unisex" selected>unisex</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <input type="hidden" id="subcategoria" name="subcategoria" value="{{producto.subcategoria}}">
-                                <label for="">Subcategoria Actual: {{producto.subcategoria}}</label>
-                                <label for="">Cambiar a: <span id="showSubcategoria">{{producto.subcategoria}}</span></label>
-                                <select name="selectSubcategoria" id="selectSubcategoria">
-                                        {{#each ListaSubCategorias}}
+                            <div class="cont-editProd-datos">
+                                <div class="form-group">
+                                    <label >Cambiar a nombre: </label>
+                                    <input type="text" name="nombre" class="form-control ingreso-datos" value="{{producto.nombre}}">
+                                </div>
+                                <div class="form-group cont-edit-marca">
+                                    <input type="hidden" id="marca" name="marca" value="{{producto.marca}}">
+                                    <div>
+                                        <label for="">Marca Actual: {{producto.marca}}</label>
+                                        <label for=""> cambiar a: <span id="showMarca">{{producto.marca}}</span></label>
+                                    </div>
+                                    <select name="selectMarca" id="selectMarca">
+                                        {{#each ListaMarcas}}
                                             <option value="{{nombre}}" selected>{{nombre}}</option>
                                         {{/each}}
-                                </select>
+                                    </select>
+                                </div>
+
+                            </div>
+                            
+
+
+                            <div class="form-group edit-descrip">
+                                <label for="">Descripcion:</label>
+                                <textarea name="descripcion" placeholder="Descripcion" class="form-control edit-descrip">{{producto.descripcion}}</textarea>
+                            </div>
+
+                            <div class="cont-prec-desc">
+                                <div class="form-group">
+                                    <label >Precio Actual: {{producto.precio}}</label>
+                                    <input type="number" name="precio" class="form-control input-prec-ofer" value="{{producto.precio}}">
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" id="offActiva" name="offActiva" value="{{producto.oferta.offActiva}}">
+                                    <label for="selectOffAct">Oferta: <span id="showOfferAct">
+                                        {{#if producto.oferta.offActiva}}
+                                            Activada
+                                        {{else}}
+                                            Desactivada
+                                        {{/if}}
+                                    </span></label>
+                                    <select name="selectOffAct" id="selectOffAct">
+                                            <option value="Activada" {{#if producto.oferta.offActiva}} selected {{/if}}>Activada</option>
+                                            <option value="Desactivada" {{#unless producto.oferta.offActiva}} selected {{/unless}}>Desactivada</option>
+                                    </select>
+                                    <div class="form-group">
+                                        <label >Descuento Actual: {{producto.oferta.descuento}} %</label>
+                                        <input type="number" name="descuento" class="form-control input-prec-ofer" value="{{producto.oferta.descuento}}">
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="contenedor-resto">
+                                <div class="form-group">
+                                    <input type="hidden" id="activo" name="activo" value="{{producto.activo}}">
+                                    <label for="selectActDes">Producto: <span id="showActivo">
+                                        {{#if producto.activo}}
+                                            Visible
+                                        {{else}}
+                                            No-Visible
+                                        {{/if}}
+                                    </span></label>
+                                    <select name="selectVisible" id="selectVisible">
+                                            <option value="Visible" {{#if producto.activo}} selected {{/if}}>Visible</option>
+                                            <option value="No-Visible" {{#unless producto.activo}} selected {{/unless}}>No-Visible</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="hidden" id="productoNuevo" name="productoNuevo" value="{{producto.productoNuevo}}">
+                                    <label for="selectNuevo">Producto: <span id="showNuevo">
+                                        {{#if producto.productoNuevo}}
+                                            Nuevo
+                                        {{else}}
+                                            Viejo
+                                        {{/if}}
+                                    </span></label>
+                                    <select name="selectNuevo" id="selectNuevo">
+                                            <option value="Nuevo" {{#if producto.productoNuevo}} selected {{/if}}>Nuevo</option>
+                                            <option value="Viejo" {{#unless producto.productoNuevo}} selected {{/unless}}>Viejo</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="hidden" id="categoria" name="categoria" value="{{producto.categoria}}">
+                                    <label for="">Categoria Actual: {{producto.categoria}}</label>
+                                    <label for="">Cambiar a: <span id="showCate">{{producto.categoria}}</span></label>
+                                    <select name="selectCate" id="selectCate">
+                                            <option value="adulto" selected>adulto</option>
+                                            <option value="infante" selected>infante</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="hidden" id="genero" name="genero" value="{{producto.genero}}">
+                                    <label for="">Genero Actual: {{producto.genero}}</label>
+                                    <label for="">Cambiar a: <span id="showGenero">{{producto.genero}}</span></label>
+                                    <select name="selectGenero" id="selectGenero">
+                                            <option value="maculino" selected>maculino</option>
+                                            <option value="femenino" selected>femenino</option>
+                                            <option value="unisex" selected>unisex</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <input type="hidden" id="subcategoria" name="subcategoria" value="{{producto.subcategoria}}">
+                                    <label for="">Subcategoria Actual: {{producto.subcategoria}}</label>
+                                    <label for="">Cambiar a: <span id="showSubcategoria">{{producto.subcategoria}}</span></label>
+                                    <select name="selectSubcategoria" id="selectSubcategoria">
+                                            {{#each ListaSubCategorias}}
+                                                <option value="{{nombre}}" selected>{{nombre}}</option>
+                                            {{/each}}
+                                    </select>
+                                </div>
+
                             </div>
 
                         </div>

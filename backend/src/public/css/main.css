@@ -12,14 +12,17 @@
     justify-content: space-evenly;
 }
 .card-stock-titulo{
+    padding: 5px;
     border-radius: 10px;
     border: solid 2px;
+    text-align: center;
 }
 /*-------------------------------------------------------*/
 /* Stylos a las img de los formularios de productos */
 .contImagenesProd{
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 .imgCont{
     display: flex;
@@ -27,7 +30,8 @@
     width: 302px;
     flex-wrap: wrap;
     align-items: center;
-    background: black;
+    margin: 5px;
+    padding: 5px;
 }
 
 .prodImg{
@@ -143,7 +147,7 @@
 }
 
 /*-------------------------------------------------------*/
-
+/* Estilos del la pag de productos*/
 
 
 .all-cards-titulo{
@@ -161,4 +165,159 @@
 .all-cards-accesos{
     display: flex;
     text-align: center;
+}
+
+/*-------------------------------------------------------*/
+/* Estilos del la pag de edit img productos*/
+
+.form-agregar-img{
+    border: solid black 2px;
+    border-radius: 20px;
+    width: 400px;
+    align-items: center;
+    background-color: #555;
+    color: bisque;
+    font-weight: bolder;
+    height: 45px;
+    padding-top: 5px;
+    justify-content: center;
+}
+.contImagenesProd{
+    align-items: center;
+    justify-content: center;
+}
+
+
+/*-------------------------------------------------------*/
+/* Estilos del la pag de edit img productos*/
+
+.boton-bordes{
+    border-radius: 15px;
+    border: solid black 2px;
+}
+.cont-stock-selectores{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+}
+select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    appearance: none; /* Oculta el estilo predeterminado del navegador */
+    background-color: #fff;
+    text-align: center;
+  }
+  
+  /* Estilo para el ícono de la flecha */
+  select:after {
+    content: '\25BC'; /* Código unicode para la flecha hacia abajo */
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+  }
+  
+  /* Estilo para el contenedor del select */
+  .select-container {
+    position: relative;
+    width: 200px;
+  }
+  
+  /* Estilo para el borde alrededor del select */
+  .select-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    pointer-events: none; /* Evita que el borde reciba eventos del ratón */
+  }
+  .input-stock{
+    width: 3rem;
+    text-align: center;
+  }
+  .cont-grup-tallas{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 250px;
+    margin-bottom: 15px;
+  }
+  .cont-tallas-ordena{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /*-------------------------------------------------------*/
+/* Edit datos de los productos*/
+
+.cont-editProd-datos{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    text-align: center;
+}
+.ingreso-datos{
+    text-align: center;
+}
+.cont-edit-marca{
+    display: flex;
+    flex-direction: column;
+}
+.edit-descrip{
+    text-align: center;
+}
+.cont-prec-desc{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    text-align: center;
+}
+.input-prec-ofer{
+    text-align: center;
+    width: 5rem;
+    align-items: center;
+}
+.contenedor-resto{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+
+
+.items-form-crear{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.cont-stock-meDuermo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 5px;
+}
+.input-Stock{
+    width: 5rem;
+    text-align: center;
+}
+.botton-bordes{
+    border-radius: 80%;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 5px;
 }

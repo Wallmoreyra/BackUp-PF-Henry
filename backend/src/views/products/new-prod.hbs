@@ -46,14 +46,14 @@ function actualizarFormulario() {
         var tallesHTML = '';
         opcion.talles.forEach(function(talle, tIndex) {
             tallesHTML += `
-                <label>Talla: ${talle.talla}, Stock: ${talle.stock}</label>
-                <button type="button" onclick="borrarTalla(${index}, ${tIndex})">Talla X</button><br>`;
+                <label>T: ${talle.talla}, Un: ${talle.stock}</label>
+                <button class="btn btn-warning botton-bordes" type="button" onclick="borrarTalla(${index}, ${tIndex})">X</button><br>`;
         });
         div.innerHTML = `
             <div class="card-stock-titulo">
                 <label>${opcion.color.nombreColor}</label>
                 <div>${tallesHTML}</div>
-                <button type="button" onclick="borrarOpcion(${index})">Opción X</button>   
+                <button class="btn btn-danger botton-bordes" type="button" onclick="borrarOpcion(${index})">X</button>   
             </div>
             <div class="card-info" id="tallasContainer${index}">
                 
@@ -236,20 +236,29 @@ function actualizarCampoTexto() {
                         <h3>Variantes:</h3>
 
                         <div class="form-group">
-                            <label for="nombreColor">Color:</label>
-                            <select id="nombreColorSelect" class="form-select" aria-label="Default select example" onchange="actualizarCampoTexto()">
-                                {{#each ListColores}}
-                                <option value="{{nombreColor}}" data-hex="{{codHexadecimal}}">{{nombreColor}}</option>
-                                {{/each}}
-                            </select>
-                            <label for="nombreColor">Talla</label>
-                            <select id="nombreTalleSelect" class="form-select" aria-label="Default select example" onchange="actualizarCampoTexto()">
-                                {{#each ListaDeTallas}}
-                                    <option value="{{nombre}}" data-hex="">{{nombre}}</option>
-                                {{/each}}
-                            </select>
-                            <input type="number" name="stock" id="stock" class="" placeholder="stock">
-                            <button type="button" onclick="agregarOpcion()">Agregar Opción</button>
+                            <div class="cont-stock-meDuermo">
+                                <div class="items-form-crear">
+                                    <label for="nombreColor">Color</label>
+                                    <select id="nombreColorSelect" class="form-select" aria-label="Default select example" onchange="actualizarCampoTexto()">
+                                        {{#each ListColores}}
+                                        <option value="{{nombreColor}}" data-hex="{{codHexadecimal}}">{{nombreColor}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div class="items-form-crear">
+                                    <label for="nombreColor">Talla</label>
+                                    <select id="nombreTalleSelect" class="form-select" aria-label="Default select example" onchange="actualizarCampoTexto()">
+                                        {{#each ListaDeTallas}}
+                                            <option value="{{nombre}}" data-hex="">{{nombre}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div class="items-form-crear">
+                                    <label for="">Stock</label>
+                                    <input type="number" name="stock" id="stock" class="input-Stock" placeholder="stock">
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-lg btn-block" type="button" onclick="agregarOpcion()">Agregar Opción</button>
                             <input type="hidden" id="nombreColorHidden" value="negro" name="nombreColor">
                             <input type="hidden" id="exaColorHidden" value="#000000" name="exaColor">
                             <input type="hidden" id="tallaHidden" value="S" name="talla">

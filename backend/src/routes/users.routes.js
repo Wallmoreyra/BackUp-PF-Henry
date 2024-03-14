@@ -9,9 +9,10 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 
 const { renderSignUpForm, renderSigninForm, signup, signin, logout, renderUsers, borrarUser, getActualizar, putActualizar } = require('../controllers/users.controller');
+const { isAuthenticated } = require('../helpers/auth');
 
 // Todos los Usuarios
-router.get('/users', renderUsers)
+router.get('/users',isAuthenticated, renderUsers)
 
 router.get('/users/signup', renderSignUpForm);
 
@@ -25,11 +26,11 @@ router.get('/users/logout', logout);
 
 
 // Cambiar El Usuario a admin o verificado
-router.get('/users/actualizar/:id', getActualizar)
-router.put('/users/actualizar/:id', putActualizar)
+router.get('/users/actualizar/:id',isAuthenticated, getActualizar)
+router.put('/users/actualizar/:id',isAuthenticated, putActualizar)
 
 // Borrar Producto
-router.delete('/users/delete/:id', borrarUser);
+router.delete('/users/delete/:id',isAuthenticated, borrarUser);
 
 
 module.exports = router;

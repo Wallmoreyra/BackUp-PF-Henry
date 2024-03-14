@@ -64,21 +64,25 @@
 
             // Crear un nuevo div para este color
             const nuevoDiv = document.createElement('div');
+            nuevoDiv.classList.add('cont-tallas-ordena');
             nuevoDiv.id = 'div_' + colorSeleccionado;
 
             // Agregar etiqueta y select para seleccionar talla
             nuevoDiv.innerHTML = `
+                <hr>  
                 <label for="">Color: ${colorSeleccionado}</label>
                 <br>
-
+                <div class="cont-stock-selectores">
                 <input type="hidden" name="talla_${colorSeleccionado}" id="talla_${colorSeleccionado}_" value="${colorExa}">
                 <label for="">Seleccione Talla:</label>
                 <select id="select_${colorSeleccionado}" onchange="actualizarValoresTallas('${colorSeleccionado}')">
                     ${tallasArray.map(talla => `<option value="${talla}">${talla}</option>`).join('')}
                 </select>
                 <input type="hidden" name="talla" id="talla_${colorSeleccionado}_talla" value="${ListTallas[0]}">
-                <button type="button" onclick="agregarTalla('${colorSeleccionado}','','', '${colorExa}')">Agregar Talla</button>
-                <button type="button" onclick="borrarColor('${colorSeleccionado}')">Borrar Color</button>
+                <button class="btn btn-success boton-bordes" type="button" onclick="agregarTalla('${colorSeleccionado}','','', '${colorExa}')">Agregar Talla</button>
+                <button class="btn btn-warning boton-bordes" type="button" onclick="borrarColor('${colorSeleccionado}')">Borrar Color</button>
+                </div>
+                <br>
             `;
 
             // Agregar el nuevo div al contenedor de opciones
@@ -121,13 +125,16 @@
     const divExistente = document.getElementById(`talla_${color}_${talla}`);
     if (!divExistente) {
         const nuevoDiv = document.createElement('div');
+        nuevoDiv.classList.add('cont-tallas-ordenamiento');
         nuevoDiv.id = `talla_${color}_${talla}`;
         nuevoDiv.innerHTML = `
-            <label for="">Talla: ${talla}</label>
+        <div class="cont-grup-tallas">
+            <label for="">Talla: ${talla} </label>
             <input type="hidden" name="${talla}" id="">
 
-            <input type="number" name="${color}_${talla}_stock" id="stock" class="" placeholder="Stock" value="${stock}">
-            <button type="button" onclick="borrarTalla('${color}', '${talla}')">Borrar Talla</button>
+            <input type="number" name="${color}_${talla}_stock" id="stock" class="input-stock" placeholder="Stock" value="${stock}">
+            <button class="btn btn-warning boton-bordes" type="button" onclick="borrarTalla('${color}', '${talla}')">Borrar Talla</button>
+        </div>
         `;
 
         const divColor = document.getElementById(`div_${color}`);
@@ -283,7 +290,11 @@ function renderOpc () {
 <div class="col-md-12 mx-auto">
     <div class="card text-center">
         <div class="card-header">
-            <h3>Stock producto: {{producto.nombre}} id: {{producto._id}}</h3>
+            <h3>Producto ID: {{producto._id}}</h3>
+        </div>
+        <div class="detail-title">
+            <h4>  Nombre del producto: {{producto.nombre}}</h4>
+            <a href="/products" class="detail-title-volver">Volver</a>
         </div>
         
         <div class="card-body">
@@ -294,16 +305,16 @@ function renderOpc () {
                         <div class="col-sm">
                             <div id="stockForm">
                                 <div>
-                                    <label for="nombreColor">Color:</label>
+                                    <label for="nombreColor">Color:   </label>
                                     
-                                    <select id="colorSelect" onchange="actualizarValores()">
+                                    <select id="colorSelect select-container" onchange="actualizarValores()">
                                         {{#each ListColores}}
                                             <option value="{{codHexadecimal}}">{{nombreColor}}</option>
                                         {{/each}}
                                     </select>
                                         <input type="hidden" name="SelectColor" id="SelectColor" value="{{ListColores.0.nombreColor}}">
                                         <input type="hidden" name="SelectColorExa" id="SelectColorExa" value="{{ListColores.0.codHexadecimal}}">
-                                        <button type="button" onclick="agregarOpcion(document.getElementById('SelectColor').value, document.getElementById('SelectColorExa').value, document.getElementById('ListTallas').value)">Agregar Opción</button>
+                                        <button class="btn btn-success boton-bordes" type="button" onclick="agregarOpcion(document.getElementById('SelectColor').value, document.getElementById('SelectColorExa').value, document.getElementById('ListTallas').value)">Agregar Opción</button>
                                         <input type="hidden" name="ListTallas" id="ListTallas" value="{{ListaDeTallas}}">
                                 </div>
                                 

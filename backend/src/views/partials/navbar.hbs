@@ -10,18 +10,20 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
+        {{#if user}}
         <li class="nav-item">
           <a class="nav-link" href="/products">Productos</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/users">Usuarios</a>
         </li>
-        <li class="nav-item">
+        {{!-- <li class="nav-item">
           <a class="nav-link" href="/">Compras</a>
-        </li>
+        </li> --}}
+        {{/if}}
       </ul>
       <ul class="navbar-nav ml-auto">
-        {{!-- {{#if user}} --}}
+        {{#if user}}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Menu
@@ -33,14 +35,14 @@
             <li><a class="dropdown-item" href="/users/logout">Log-Out</a></li>
           </ul>
         </li>
-        {{!-- {{else}} --}}
+        {{else}}
         <li class="nav-item">
             <a href="/users/signin" class="nav-link">Login</a>
         </li>
         <li class="nav-item">
             <a href="/users/signup" class="nav-link">Registrarse</a>
         </li>
-        {{!-- {{/if}} --}}
+        {{/if}}
       </ul>
     </div>
   </div>

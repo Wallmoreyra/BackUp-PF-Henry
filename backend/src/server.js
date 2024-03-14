@@ -10,6 +10,7 @@ const Handlebars = require('handlebars');
 
 // Inicializaciones
 const app = express();
+require('./config/passport');
 
 // Registrar el helper eq en Handlebars
 Handlebars.registerHelper('eq', function(a, b) {
@@ -37,14 +38,16 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+app.use(passport.initialize());
+app.use(passport.session())
 app.use(flash());
 
 // Variables Globales
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg');
-    // res.locals.error_msg = req.flash('error_msg');
-    // res.locals.error = req.flash('error');
-    // res.locals.user = req.user || null;
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    res.locals.user = req.user || null;
     next();
 });
 
