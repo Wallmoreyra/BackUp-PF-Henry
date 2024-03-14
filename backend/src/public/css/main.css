@@ -15,7 +15,7 @@
     border-radius: 10px;
     border: solid 2px;
 }
-
+/*-------------------------------------------------------*/
 /* Stylos a las img de los formularios de productos */
 .contImagenesProd{
     display: flex;
@@ -53,4 +53,112 @@
     font-size: 16px;
     background: black;
     width: 25px;
+}
+/*-------------------------------------------------------*/
+
+/* Stylos al detail de la creacion del producto */
+.gallery {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Espacio entre las imágenes */
+}
+
+.gallery-item {
+    flex: 1 1 200px; /* Ajusta el tamaño de cada imagen según sea necesario */
+}
+
+.gallery-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.producto-card-opciones-cont{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+.producto-bloke-color{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+.card-text-desc{
+    text-align: center;
+}
+.detail-title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.detail-title-volver{
+    border: solid 1px;
+    border-radius: 15px;
+    background-color: cadetblue;
+    color: white;
+    font-weight: bolder;
+    width: 100px;
+    text-align: center;
+
+}
+/*-------------------------------------------------------*/
+
+/* Estilos del Home page*/
+.banner {
+    background-color: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.banner-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.banner-content {
+    margin-left: 20px; /* Ajusta el margen interior para el contenido */
+}
+
+.banner-text {
+    color: #555;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.banner-list {
+    list-style-type: square;
+    margin-left: 20px;
+}
+
+.banner-list li {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/*-------------------------------------------------------*/
+
+
+
+.all-cards-titulo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.all-card-boton-borrado{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.all-cards-accesos{
+    display: flex;
+    text-align: center;
 }

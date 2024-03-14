@@ -2,7 +2,7 @@
 
     function actualizar( id, info ) {
             // Hacer una solicitud GET al servidor con el ID del producto
-            console.log(id, info)
+            //console.log(id, info)
             fetch(`/users/actualizar/${id}`, {
             method: 'GET'
         })
@@ -17,17 +17,21 @@
             })
             .then(usuario => {
                 // Obtener el valor de activo de la respuesta
-                console.log(usuario)
+                //console.log(usuario.usuario.admid)
+                let aux;
+                //console.log(usuario)
                 if(info === 'admid') {
-
+                    aux = usuario.usuario.admid;
+                    //console.log(estatus)
                 }else {
-
+                    aux = usuario.usuario.emailVerified;
                 }
+                    //console.log(aux)
 
                 //const activo = data.activo;
-                //console.log('Estado de activo adquirido:', activo);
+                console.log('Estado adquirido:', info);
 
-                //cambio(id, activo)
+                cambio(id, aux, info)
                 //console.log(id)
                 
             })
@@ -37,8 +41,62 @@
             });
         }
 
-    function () {
+    async function cambio (id, valor, variable) {
+        console.log(id)
+        console.log(valor)
+        console.log(variable)
+
+        auxActi = (valor === false) ? true : false;
+        console.log(auxActi)
+        if(variable === 'admid') {
+            let inputElement = document.querySelector(`input[name="inpAdm_${id}"]`);
+            inputElement.value = auxActi;
+            let iconElement = document.querySelector(`i[id="icono2_${id}"]`);
+            if (valor === false) {
+                iconElement.classList.remove('fas', 'fa-user-slash');
+                iconElement.classList.add('fas', 'fa-user-tie');
+            }else {
+                iconElement.classList.remove('fas', 'fa-user-tie');
+                iconElement.classList.add('fas', 'fa-user-slash');
+            }
+            //aux = usuario.usuario.admid;
+            //console.log(estatus)
+        }else {
+            //aux = usuario.usuario.emailVerified;
+            let inputElement = document.querySelector(`input[name="inpVer_${id}"]`);
+            inputElement.value = auxActi;
+            let iconElement = document.querySelector(`i[id="icono_${id}"]`);
+            if (valor === false) {
+                iconElement.classList.remove('fas', 'fa-user-check');
+                iconElement.classList.add('fas', 'fa-user-times');
+            }else {
+                iconElement.classList.remove('fas', 'fa-user-times');
+                iconElement.classList.add('fas', 'fa-user-check');
+            }
+        }
+
+        let url = `/users/actualizar/${id}`;
+        let data2 = { id, auxActi, variable };
+
+        try {
+        let response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data2)
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al llamar al método PUT');
+        }
+
+        console.log('Método PUT llamado con éxito');
         
+        } catch (error) {
+            console.error('Error al llamar al método PUT:', error);
+        }
+
     }
 </script>
 
@@ -51,21 +109,22 @@
                 <div class="card-body">
                     <h4>{{name}}</h4>
                     <h6>{{email}}</h6>
-                    <h4 class="card-title d-flex justify-content-between aling-items-center">
+                    {{!-- <h4 class="card-title d-flex justify-content-between aling-items-center">
                         Edit<a href="/users/edit/{{_id}}"><i class="fas fa-user-edit"></i></a>
-                    </h4>
+                    </h4> --}}
                     <h5 class="card-title d-flex justify-content-between aling-items-center">
                         admin
                         <button id="admin_{{_id}}" onclick="actualizar('{{_id}}' , 'admid')">
                             <i id="icono2_{{_id}}" class="fas {{#if admid}}fa-user-tie{{else}}fa-user-slash{{/if}}"></i>
                         </button>
+                        <input type="hidden" name="inpAdm_{{_id}}" value="{{admid}}" id="">
                     </h5>
                     <h5 class="card-title d-flex justify-content-between aling-items-center">
                         Mail Ver/No-Ver 
                         <button id="actiDes_{{_id}}" onclick="actualizar('{{_id}}', 'emailVerifield')">
                             <i id="icono_{{_id}}" class="fas {{#if emailVerified}}fa-user-check{{else}}fa-user-times{{/if}}"></i>
                         </button>
-                        <input type="hidden" name="inp_{{_id}}" value="{{emailVerified}}" id="">
+                        <input type="hidden" name="inpVer_{{_id}}" value="{{emailVerified}}" id="">
                     </h5>
                     <form id="deleteForm" action="/users/delete/{{_id}}?_method=DELETE" method="POST">
                         <input type="hidden" name="_method" value="DELETE">

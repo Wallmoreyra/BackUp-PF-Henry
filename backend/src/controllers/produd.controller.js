@@ -24,14 +24,20 @@ prodCtrl.createNewProd = async (req, res) => {
         let { nombre, marca, descripcion, genero, subcategoria, opciones, offActiva, activo, productoNuevo, categoria, opcionesData, descuento, precio} = req.body;
         console.log(req.body)
         const errors = [];
-        if (!nombre || !marca || !descripcion || !precio || !descuento || !categoria || !opciones || !categoria){
+        if (!nombre || !marca || !descripcion || !precio || !descuento || !categoria){
             errors.push({text: 'Los campos con "*" son obligatorios'});
         }
-        if (!descripcion) {
-            errors.push({text: 'descripcion no puede estar vacio!'});
+        if (/[^a-zA-Z0-9\s]/.test(nombre)) {
+            errors.push({ text: 'El nombre no puede contener símbolos.' });
         }
         if (opcionesData.length === 0) {
             errors.push({text: 'Tiene que tener al menos una opcion!'});
+        }
+        if (typeof precio !== 'undefined') {
+            const precioNum = parseFloat(precio);
+            if (isNaN(precioNum) || precioNum < 0 || precioNum > 200) {
+                errors.push({ text: 'El precio debe estar en el rango de 0 a 200.' });
+            }
         }
         if (errors.length > 0) {
             const ListColores = [{"codHexadecimal": "#000000","nombreColor": "negro"},{"codHexadecimal": "#FFFFFF","nombreColor": "blanco"},{"codHexadecimal": "#FF0000","nombreColor": "rojo"},{"codHexadecimal": "#FFC0CB","nombreColor": "rosa"},{"codHexadecimal": "#0000ff","nombreColor": "azul"},{"codHexadecimal": "#FFFF00","nombreColor": "amarillo"},{"codHexadecimal": "#800080","nombreColor": "purpura"},{"codHexadecimal": "#87CEEB","nombreColor": "celeste"},{"codHexadecimal": "#F28773","nombreColor": "salmon"},{"codHexadecimal": "#9b9b9b","nombreColor": "gris"},{"codHexadecimal": "#C0C0C0","nombreColor": "plata"},{"codHexadecimal": "#FFD700","nombreColor": "oro"},{"codHexadecimal": "#A52A2A","nombreColor": "marron"},{"codHexadecimal": "#819225","nombreColor": "mate"},{"codHexadecimal": "#008000","nombreColor": "verde"},{"codHexadecimal": "#7d8471","nombreColor": "cemento"},{"codHexadecimal": "#FFA500","nombreColor": "naranja"}];
@@ -51,7 +57,9 @@ prodCtrl.createNewProd = async (req, res) => {
                 errors,
                 nombre,
                 marca,
-                descripcion
+                descripcion,
+                precio,
+
             })
         }else {
 
@@ -113,7 +121,7 @@ prodCtrl.createNewProd = async (req, res) => {
 
             // Crea el nuevo producto con las URLs de las imágenes subidas
             const newProd = new Prod({ nombre, marca, descripcion, precio, oferta, activo, productoNuevo, categoria, genero, subcategoria, imagen: nuevasFotos, tallas: tallasUnicas, colores: coloresUnicos, opcion: opciones });
-            //await newProd.save();
+            await newProd.save();
             
 
             // Imprime solo las propiedades que están definidas en el objeto newProd
@@ -417,6 +425,34 @@ prodCtrl.borrarProd = async (req, res) => {
 prodCtrl.renderProducts = async (req, res) => {
     const prod = await Prod.find().lean();
     res.render('products/all-prod', {prod})
+};
+
+// REND PREVIEW DEL PRODUCTO ID
+prodCtrl.renderPreviewProd = async (req, res) => {
+    try {
+        //data = {ListColores, ListaMarcas, ListaSubCategorias};
+        const prod = req.params.id;
+        //console.log(prod);
+        const producto = await Prod.findById(prod).lean();
+        const datos = {nombre: producto.nombre, marca: producto.marca}
+        //console.log(datos);
+        //console.log(producto.precio);
+        
+        //res.render('products/detail-prod', producto);
+
+
+        //const productId = req.params.id; // Renombrar la variable a `productId`
+        //console.log(productId); // Verificar que se esté obteniendo el ID correctamente
+
+        //const producto = await Prod.findById(req.params.id).lean();
+        //console.log(producto);
+
+        // Si todo está bien, renderizar la vista
+        res.render('products/detail-prod', { producto });
+    } catch (error) {
+        console.error('Error al renderizar el producto', error);
+        res.status(500).send('Error al renderizar el prodcuto');
+    }
 };
 
 

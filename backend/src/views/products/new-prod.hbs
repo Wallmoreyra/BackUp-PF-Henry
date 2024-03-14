@@ -185,7 +185,7 @@ function actualizarCampoTexto() {
 
                         <div class="input-group mb-3">
                             <label for="">*Precio $ 0.00</label>
-                            <input name="precio" placeholder="Precio" type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)" value="precio">
+                            <input name="precio" type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)" value="{{precio}}">
                         </div>
 
                         <div class="form-group">
@@ -251,7 +251,7 @@ function actualizarCampoTexto() {
                             <input type="number" name="stock" id="stock" class="" placeholder="stock">
                             <button type="button" onclick="agregarOpcion()">Agregar Opción</button>
                             <input type="hidden" id="nombreColorHidden" value="negro" name="nombreColor">
-                            <input type="text" id="exaColorHidden" value="#000000" name="exaColor">
+                            <input type="hidden" id="exaColorHidden" value="#000000" name="exaColor">
                             <input type="hidden" id="tallaHidden" value="S" name="talla">
                             <input type="hidden" id="opcionesData" name="opcionesData">
                         </div>

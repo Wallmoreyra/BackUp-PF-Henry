@@ -1,0 +1,83 @@
+
+
+
+
+
+
+<div>
+    <div class="detail-title">
+        <h1>Nombre del producto: {{producto.nombre}}</h1>
+        <a href="/products" class="detail-title-volver">Volver</a>
+    </div>
+    <div class="main-container">
+
+
+        <div class="card mb-3">
+
+            <div class="gallery">
+                {{#each producto.imagen}}
+                    <div class="gallery-item">
+                        <img src="{{this}}" class="img-thumbnail rounded mx-auto d-block gallery-image" alt="{{this}}">
+                    </div>
+                {{/each}}
+            </div>
+
+
+        </div>
+
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Marca: {{producto.marca}} Categoria: {{producto.categoria}}</h5>
+                <h5 class="card-title"> Genero: {{producto.genero}} Subcategoria: {{producto.subcategoria}}</h5>
+                <p class="card-text">Descripcion: {{producto.descripcion}}</p>
+                <p class="card-text card-text-desc">Cuanta con una gama de colores en {{producto.colores}} y una gama de talles en {{producto.tallas}}</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Stock disponible:</h5>
+                <div class="producto-card-opciones-cont">
+                    {{#each producto.opcion}}
+                        <div class="producto-bloke-color">
+                            <h5>Opcion de Color: {{color.nombreColor}}</h5>
+                            {{#each talles}}
+                                <p>Talle: {{talla}} Cantidad: {{stock}}</p>
+                            {{/each}}
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+            <img src="" class="card-img-bottom" alt="">
+        </div>
+
+
+    </div>
+    {{!-- 
+    
+
+    <div class="main-container">
+        
+        <div class="card mb-3">
+            <img src="{{producto.imagen.[0]}}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+            <img src="..." class="card-img-bottom" alt="...">
+        </div>
+    </div> --}}
+
+</div>
+
+
+

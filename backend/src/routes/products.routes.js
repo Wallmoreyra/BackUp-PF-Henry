@@ -6,7 +6,8 @@ const express = require('express');
 const multer = require('multer');
 //--------------------------------------------
 
-const {renderProducts, renderProdForm, createNewProd, renderEditForm, updateProd, actDesProd, borrarProd, getAcDes, renderEditStockForm, updateStockProd, renderEditImgForm, updateImgProd, } = require('../controllers/produd.controller');
+const {renderProducts, renderProdForm, createNewProd, renderEditForm, updateProd, actDesProd, borrarProd, getAcDes, renderEditStockForm, updateStockProd, renderEditImgForm, updateImgProd, renderPreviewProd, } = require('../controllers/produd.controller');
+const { isAuthenticated } = require('../helpers/auth');
 
 // Configurar multer para manejar la carga de archivos
 const upload = multer({ dest: 'uploads/' });
@@ -15,6 +16,7 @@ const upload = multer({ dest: 'uploads/' });
 router.get('/products', renderProducts)
 
 // Crear Producto
+//router.get('/products/add',isAuthenticated, renderProdForm);
 router.get('/products/add', renderProdForm);
 
 router.post('/products/nuev-prod', upload.array('photos'), createNewProd);
@@ -37,6 +39,9 @@ router.put('/products/acDes/:id', actDesProd);
 
 // Borrar Producto
 router.delete('/products/delete/:id', borrarProd);
+
+// Preview del producto
+router.get('/products/preview/:id', renderPreviewProd);
 
 
 
